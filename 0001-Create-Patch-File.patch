@@ -1,0 +1,1373 @@
+From ef9d3d9415ac7827d28cebde9ff1f0d70ca728ec Mon Sep 17 00:00:00 2001
+From: Nisha <nishathapa4727@gmail.com>
+Date: Tue, 21 Apr 2020 00:18:04 +0530
+Subject: [PATCH] Create Patch File
+
+---
+ README.html         | 785 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ datafeed/server3.py |   4 +-
+ package-lock.json   | 195 +++++++++++--
+ src/App.tsx         |  24 +-
+ src/DataStreamer.ts |   4 +-
+ src/Graph.tsx       |  30 +-
+ 6 files changed, 998 insertions(+), 44 deletions(-)
+ create mode 100644 README.html
+
+diff --git a/README.html b/README.html
+new file mode 100644
+index 0000000..02eecac
+--- /dev/null
++++ b/README.html
+@@ -0,0 +1,785 @@
++<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>@font-face {
++  font-family: octicons-anchor;
++  src: url(https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.woff) format('woff');
++}
++
++* {
++    box-sizing: border-box;
++}
++
++body {
++    width: 980px;
++    margin-right: auto;
++    margin-left: auto;
++    color:#333;
++    background:#fff;
++}
++
++body .markdown-body {
++    padding: 45px;
++    border: 1px solid #ddd;
++    border-radius: 3px;
++    word-wrap: break-word;
++}
++
++pre {
++    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
++}
++
++.markdown-body {
++  -webkit-text-size-adjust: 100%;
++  text-size-adjust: 100%;
++  color: #333;
++  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
++  font-size: 16px;
++  line-height: 1.6;
++  word-wrap: break-word;
++}
++
++.markdown-body a {
++  background-color: transparent;
++}
++
++.markdown-body a:active,
++.markdown-body a:hover {
++  outline: 0;
++}
++
++.markdown-body strong {
++  font-weight: bold;
++}
++
++.markdown-body h1 {
++  font-size: 2em;
++  margin: 0.67em 0;
++}
++
++.markdown-body img {
++  border: 0;
++}
++
++.markdown-body hr {
++  box-sizing: content-box;
++  height: 0;
++}
++
++.markdown-body pre {
++  overflow: auto;
++}
++
++.markdown-body code,
++.markdown-body kbd,
++.markdown-body pre {
++  font-family: monospace, monospace;
++  font-size: 1em;
++}
++
++.markdown-body input {
++  color: inherit;
++  font: inherit;
++  margin: 0;
++}
++
++.markdown-body html input[disabled] {
++  cursor: default;
++}
++
++.markdown-body input {
++  line-height: normal;
++}
++
++.markdown-body input[type="checkbox"] {
++  box-sizing: border-box;
++  padding: 0;
++}
++
++.markdown-body table {
++  border-collapse: collapse;
++  border-spacing: 0;
++}
++
++.markdown-body td,
++.markdown-body th {
++  padding: 0;
++}
++
++.markdown-body input {
++  font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
++}
++
++.markdown-body a {
++  color: #4078c0;
++  text-decoration: none;
++}
++
++.markdown-body a:hover,
++.markdown-body a:active {
++  text-decoration: underline;
++}
++
++.markdown-body hr {
++  height: 0;
++  margin: 15px 0;
++  overflow: hidden;
++  background: transparent;
++  border: 0;
++  border-bottom: 1px solid #ddd;
++}
++
++.markdown-body hr:before {
++  display: table;
++  content: "";
++}
++
++.markdown-body hr:after {
++  display: table;
++  clear: both;
++  content: "";
++}
++
++.markdown-body h1,
++.markdown-body h2,
++.markdown-body h3,
++.markdown-body h4,
++.markdown-body h5,
++.markdown-body h6 {
++  margin-top: 15px;
++  margin-bottom: 15px;
++  line-height: 1.1;
++}
++
++.markdown-body h1 {
++  font-size: 30px;
++}
++
++.markdown-body h2 {
++  font-size: 21px;
++}
++
++.markdown-body h3 {
++  font-size: 16px;
++}
++
++.markdown-body h4 {
++  font-size: 14px;
++}
++
++.markdown-body h5 {
++  font-size: 12px;
++}
++
++.markdown-body h6 {
++  font-size: 11px;
++}
++
++.markdown-body blockquote {
++  margin: 0;
++}
++
++.markdown-body ul,
++.markdown-body ol {
++  padding: 0;
++  margin-top: 0;
++  margin-bottom: 0;
++}
++
++.markdown-body ol ol,
++.markdown-body ul ol {
++  list-style-type: lower-roman;
++}
++
++.markdown-body ul ul ol,
++.markdown-body ul ol ol,
++.markdown-body ol ul ol,
++.markdown-body ol ol ol {
++  list-style-type: lower-alpha;
++}
++
++.markdown-body dd {
++  margin-left: 0;
++}
++
++.markdown-body code {
++  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
++  font-size: 12px;
++}
++
++.markdown-body pre {
++  margin-top: 0;
++  margin-bottom: 0;
++  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
++}
++
++.markdown-body .select::-ms-expand {
++  opacity: 0;
++}
++
++.markdown-body .octicon {
++  font: normal normal normal 16px/1 octicons-anchor;
++  display: inline-block;
++  text-decoration: none;
++  text-rendering: auto;
++  -webkit-font-smoothing: antialiased;
++  -moz-osx-font-smoothing: grayscale;
++  -webkit-user-select: none;
++  -moz-user-select: none;
++  -ms-user-select: none;
++  user-select: none;
++}
++
++.markdown-body .octicon-link:before {
++  content: '\f05c';
++}
++
++.markdown-body:before {
++  display: table;
++  content: "";
++}
++
++.markdown-body:after {
++  display: table;
++  clear: both;
++  content: "";
++}
++
++.markdown-body>*:first-child {
++  margin-top: 0 !important;
++}
++
++.markdown-body>*:last-child {
++  margin-bottom: 0 !important;
++}
++
++.markdown-body a:not([href]) {
++  color: inherit;
++  text-decoration: none;
++}
++
++.markdown-body .anchor {
++  display: inline-block;
++  padding-right: 2px;
++  margin-left: -18px;
++}
++
++.markdown-body .anchor:focus {
++  outline: none;
++}
++
++.markdown-body h1,
++.markdown-body h2,
++.markdown-body h3,
++.markdown-body h4,
++.markdown-body h5,
++.markdown-body h6 {
++  margin-top: 1em;
++  margin-bottom: 16px;
++  font-weight: bold;
++  line-height: 1.4;
++}
++
++.markdown-body h1 .octicon-link,
++.markdown-body h2 .octicon-link,
++.markdown-body h3 .octicon-link,
++.markdown-body h4 .octicon-link,
++.markdown-body h5 .octicon-link,
++.markdown-body h6 .octicon-link {
++  color: #000;
++  vertical-align: middle;
++  visibility: hidden;
++}
++
++.markdown-body h1:hover .anchor,
++.markdown-body h2:hover .anchor,
++.markdown-body h3:hover .anchor,
++.markdown-body h4:hover .anchor,
++.markdown-body h5:hover .anchor,
++.markdown-body h6:hover .anchor {
++  text-decoration: none;
++}
++
++.markdown-body h1:hover .anchor .octicon-link,
++.markdown-body h2:hover .anchor .octicon-link,
++.markdown-body h3:hover .anchor .octicon-link,
++.markdown-body h4:hover .anchor .octicon-link,
++.markdown-body h5:hover .anchor .octicon-link,
++.markdown-body h6:hover .anchor .octicon-link {
++  visibility: visible;
++}
++
++.markdown-body h1 {
++  padding-bottom: 0.3em;
++  font-size: 2.25em;
++  line-height: 1.2;
++  border-bottom: 1px solid #eee;
++}
++
++.markdown-body h1 .anchor {
++  line-height: 1;
++}
++
++.markdown-body h2 {
++  padding-bottom: 0.3em;
++  font-size: 1.75em;
++  line-height: 1.225;
++  border-bottom: 1px solid #eee;
++}
++
++.markdown-body h2 .anchor {
++  line-height: 1;
++}
++
++.markdown-body h3 {
++  font-size: 1.5em;
++  line-height: 1.43;
++}
++
++.markdown-body h3 .anchor {
++  line-height: 1.2;
++}
++
++.markdown-body h4 {
++  font-size: 1.25em;
++}
++
++.markdown-body h4 .anchor {
++  line-height: 1.2;
++}
++
++.markdown-body h5 {
++  font-size: 1em;
++}
++
++.markdown-body h5 .anchor {
++  line-height: 1.1;
++}
++
++.markdown-body h6 {
++  font-size: 1em;
++  color: #777;
++}
++
++.markdown-body h6 .anchor {
++  line-height: 1.1;
++}
++
++.markdown-body p,
++.markdown-body blockquote,
++.markdown-body ul,
++.markdown-body ol,
++.markdown-body dl,
++.markdown-body table,
++.markdown-body pre {
++  margin-top: 0;
++  margin-bottom: 16px;
++}
++
++.markdown-body hr {
++  height: 4px;
++  padding: 0;
++  margin: 16px 0;
++  background-color: #e7e7e7;
++  border: 0 none;
++}
++
++.markdown-body ul,
++.markdown-body ol {
++  padding-left: 2em;
++}
++
++.markdown-body ul ul,
++.markdown-body ul ol,
++.markdown-body ol ol,
++.markdown-body ol ul {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++
++.markdown-body li>p {
++  margin-top: 16px;
++}
++
++.markdown-body dl {
++  padding: 0;
++}
++
++.markdown-body dl dt {
++  padding: 0;
++  margin-top: 16px;
++  font-size: 1em;
++  font-style: italic;
++  font-weight: bold;
++}
++
++.markdown-body dl dd {
++  padding: 0 16px;
++  margin-bottom: 16px;
++}
++
++.markdown-body blockquote {
++  padding: 0 15px;
++  color: #777;
++  border-left: 4px solid #ddd;
++}
++
++.markdown-body blockquote>:first-child {
++  margin-top: 0;
++}
++
++.markdown-body blockquote>:last-child {
++  margin-bottom: 0;
++}
++
++.markdown-body table {
++  display: block;
++  width: 100%;
++  overflow: auto;
++  word-break: normal;
++  word-break: keep-all;
++}
++
++.markdown-body table th {
++  font-weight: bold;
++}
++
++.markdown-body table th,
++.markdown-body table td {
++  padding: 6px 13px;
++  border: 1px solid #ddd;
++}
++
++.markdown-body table tr {
++  background-color: #fff;
++  border-top: 1px solid #ccc;
++}
++
++.markdown-body table tr:nth-child(2n) {
++  background-color: #f8f8f8;
++}
++
++.markdown-body img {
++  max-width: 100%;
++  box-sizing: content-box;
++  background-color: #fff;
++}
++
++.markdown-body code {
++  padding: 0;
++  padding-top: 0.2em;
++  padding-bottom: 0.2em;
++  margin: 0;
++  font-size: 85%;
++  background-color: rgba(0,0,0,0.04);
++  border-radius: 3px;
++}
++
++.markdown-body code:before,
++.markdown-body code:after {
++  letter-spacing: -0.2em;
++  content: "\00a0";
++}
++
++.markdown-body pre>code {
++  padding: 0;
++  margin: 0;
++  font-size: 100%;
++  word-break: normal;
++  white-space: pre;
++  background: transparent;
++  border: 0;
++}
++
++.markdown-body .highlight {
++  margin-bottom: 16px;
++}
++
++.markdown-body .highlight pre,
++.markdown-body pre {
++  padding: 16px;
++  overflow: auto;
++  font-size: 85%;
++  line-height: 1.45;
++  background-color: #f7f7f7;
++  border-radius: 3px;
++}
++
++.markdown-body .highlight pre {
++  margin-bottom: 0;
++  word-break: normal;
++}
++
++.markdown-body pre {
++  word-wrap: normal;
++}
++
++.markdown-body pre code {
++  display: inline;
++  max-width: initial;
++  padding: 0;
++  margin: 0;
++  overflow: initial;
++  line-height: inherit;
++  word-wrap: normal;
++  background-color: transparent;
++  border: 0;
++}
++
++.markdown-body pre code:before,
++.markdown-body pre code:after {
++  content: normal;
++}
++
++.markdown-body kbd {
++  display: inline-block;
++  padding: 3px 5px;
++  font-size: 11px;
++  line-height: 10px;
++  color: #555;
++  vertical-align: middle;
++  background-color: #fcfcfc;
++  border: solid 1px #ccc;
++  border-bottom-color: #bbb;
++  border-radius: 3px;
++  box-shadow: inset 0 -1px 0 #bbb;
++}
++
++.markdown-body .pl-c {
++  color: #969896;
++}
++
++.markdown-body .pl-c1,
++.markdown-body .pl-s .pl-v {
++  color: #0086b3;
++}
++
++.markdown-body .pl-e,
++.markdown-body .pl-en {
++  color: #795da3;
++}
++
++.markdown-body .pl-s .pl-s1,
++.markdown-body .pl-smi {
++  color: #333;
++}
++
++.markdown-body .pl-ent {
++  color: #63a35c;
++}
++
++.markdown-body .pl-k {
++  color: #a71d5d;
++}
++
++.markdown-body .pl-pds,
++.markdown-body .pl-s,
++.markdown-body .pl-s .pl-pse .pl-s1,
++.markdown-body .pl-sr,
++.markdown-body .pl-sr .pl-cce,
++.markdown-body .pl-sr .pl-sra,
++.markdown-body .pl-sr .pl-sre {
++  color: #183691;
++}
++
++.markdown-body .pl-v {
++  color: #ed6a43;
++}
++
++.markdown-body .pl-id {
++  color: #b52a1d;
++}
++
++.markdown-body .pl-ii {
++  background-color: #b52a1d;
++  color: #f8f8f8;
++}
++
++.markdown-body .pl-sr .pl-cce {
++  color: #63a35c;
++  font-weight: bold;
++}
++
++.markdown-body .pl-ml {
++  color: #693a17;
++}
++
++.markdown-body .pl-mh,
++.markdown-body .pl-mh .pl-en,
++.markdown-body .pl-ms {
++  color: #1d3e81;
++  font-weight: bold;
++}
++
++.markdown-body .pl-mq {
++  color: #008080;
++}
++
++.markdown-body .pl-mi {
++  color: #333;
++  font-style: italic;
++}
++
++.markdown-body .pl-mb {
++  color: #333;
++  font-weight: bold;
++}
++
++.markdown-body .pl-md {
++  background-color: #ffecec;
++  color: #bd2c00;
++}
++
++.markdown-body .pl-mi1 {
++  background-color: #eaffea;
++  color: #55a532;
++}
++
++.markdown-body .pl-mdr {
++  color: #795da3;
++  font-weight: bold;
++}
++
++.markdown-body .pl-mo {
++  color: #1d3e81;
++}
++
++.markdown-body kbd {
++  display: inline-block;
++  padding: 3px 5px;
++  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
++  line-height: 10px;
++  color: #555;
++  vertical-align: middle;
++  background-color: #fcfcfc;
++  border: solid 1px #ccc;
++  border-bottom-color: #bbb;
++  border-radius: 3px;
++  box-shadow: inset 0 -1px 0 #bbb;
++}
++
++.markdown-body .plan-price-unit {
++  color: #767676;
++  font-weight: normal;
++}
++
++.markdown-body .task-list-item {
++  list-style-type: none;
++}
++
++.markdown-body .task-list-item+.task-list-item {
++  margin-top: 3px;
++}
++
++.markdown-body .task-list-item input {
++  margin: 0 0.35em 0.25em -1.6em;
++  vertical-align: middle;
++}
++
++.markdown-body .plan-choice {
++  padding: 15px;
++  padding-left: 40px;
++  display: block;
++  border: 1px solid #e0e0e0;
++  position: relative;
++  font-weight: normal;
++  background-color: #fafafa;
++}
++
++.markdown-body .plan-choice.open {
++  background-color: #fff;
++}
++
++.markdown-body .plan-choice.open .plan-choice-seat-breakdown {
++  display: block;
++}
++
++.markdown-body .plan-choice-free {
++  border-radius: 3px 3px 0 0;
++}
++
++.markdown-body .plan-choice-paid {
++  border-radius: 0 0 3px 3px;
++  border-top: 0;
++  margin-bottom: 20px;
++}
++
++.markdown-body .plan-choice-radio {
++  position: absolute;
++  left: 15px;
++  top: 18px;
++}
++
++.markdown-body .plan-choice-exp {
++  color: #999;
++  font-size: 12px;
++  margin-top: 5px;
++}
++
++.markdown-body .plan-choice-seat-breakdown {
++  margin-top: 10px;
++  display: none;
++}
++
++.markdown-body :checked+.radio-label {
++  z-index: 1;
++  position: relative;
++  border-color: #4078c0;
++}
++
++@media print {
++  body .markdown-body {
++    padding: 0;
++    border: none;
++  }
++}
++</style><title>README</title></head><body><article class="markdown-body"><p align="center">
++<a href="https://www.insidesherpa.com/virtual-internships/prototype/R5iK7HMxJGBgaSbvk/Technology%20Virtual%20Experience" rel="nofollow">
++<img src="https://camo.githubusercontent.com/5184c85bc8fca3f46975f30ef6304e566a5949bb/68747470733a2f2f696e736964657368657270612d6173736574732e73332d61702d736f757468656173742d322e616d617a6f6e6177732e636f6d2f69636f6e732f6a706d6f7267616e2f6769746875622b7265706f2b696d616765732f6a706d632b6769746875622b696d672e706e67" data-canonical-src="https://insidesherpa-assets.s3-ap-southeast-2.amazonaws.com/icons/jpmorgan/github+repo+images/jpmc+github+img.png" style="max-width:100%;">
++	</a>
++</p>
++<p align="center"> 
++	<b><a href="#task">Task Overview</a></b>
++	|
++	<b><a href="#installation">Installation Instructions</a></b>
++	| 
++	<b><a href="https://www.insidesherpa.com/modules/R5iK7HMxJGBgaSbvk/88AisH7iuw3L5N5ig" rel="nofollow">Link to Module 2</a></b>
++</p><h1>
++<a id="user-content--introduction" class="anchor" href="#-introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> Introduction</h1> 
++<b> Experience Technology at JP Morgan Chase </b>
++<p>Try out what real work is like in the technology team JP Morgan Chase. Fast track to the tech team with your work.</p>
++<h2 id="user-content-task">
++<a id="user-content--module-2-task-overview-" class="anchor" href="#-module-2-task-overview-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> Module 2 Task Overview </h2>
++<p>Use JP Morgan Chase's frameworks and tools
++Implement JP Morgan Chase’s Perspective open source code in preparation for data visualization</p>
++<p> <b>Aim:</b>Take an incomplete setup of Perspective, i.e. a graph that updates manually, and make it work with the code from Task 1 such that it now updates automatically by continuously requesting from the server application</p>
++<ol>
++	<li>Please clone this repository to start the task</li>
++	<li>[goal-a] In the client application, observe that when new data feed is retrieved whenever you click the 'Start Streaming Data' button, the previous entry is re-entered into the table. Update the application so that the table does not have duplicated entries</li>
++	<li>[goal-b] We also want the react app to keep continuosly requesting data from the python server. Currently, the data feed is called only once every time the 'Start Streaming' button is clicked. Change the application to continuously query the datafeed every 100ms when the 'Start Streaming' is clicked.</li>
++	<li>[goal-c] Currently, the Perspective element only shows the data in table view after the data loads. Add Perspective configurations so that when the data is loaded, it shows the historical data of ask_price ABC in the Y line chart.</li>
++	<li>Upload a git patch file as the submission to this task</li>	
++</ol>
++<h2 id="user-content-installation">
++<a id="user-content-set-up--installation" class="anchor" href="#set-up--installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set up / Installation</h2>
++<p>In order to get the server and client application code working on your machine, <a href="https://insidesherpa.s3.amazonaws.com/vinternships/companyassets/Sj7temL583QAYpHXD/setup_devenv_m2_v8.pdf" rel="nofollow">follow the setup here</a></p>
++<p><b>Note</b>:This is the version of the JPM 2 exercise that uses Python 3. The Python 2.7 version is in <a href="https://github.com/insidesherpa/JPMC-tech-task-2">this other repo</a></p>
++<h2>
++<a id="user-content-how-to-run" class="anchor" href="#how-to-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to Run</h2>
++<p>Similar to Task 1, start the data feed server by running the python server.</p> 
++<p>Make sure your terminal / command line is in the repository first before doing any of this.</p>
++<p>If you are using Windows, make sure to run your terminal/command prompt as administrator.</p>
++<p><code> python datafeed/server3.py </code></p>
++<p>If you encounter an issue with <code>datautil.parser</code>, run this command:</p>
++<pre><code>pip install python-dateutil
++</code></pre>
++<p>If you don't have pip, you can install it from: <a href="https://pip.pypa.io/en/stable/installing/" rel="nofollow">https://pip.pypa.io/en/stable/installing/</a></p>
++<p>Run <code>npm install &amp;&amp; npm start</code> to start the React application.</p>
++<p>It's okay to have audit warnings when installing/running the app.</p>
++<p>If you don't have <code>npm</code> (although you should if you followed the set up / installation part), you can install the recommended version alongside NodeJS from: <a href="https://nodejs.org/en/" rel="nofollow">https://nodejs.org/en/</a></p>
++<p>The recommended version are node v11.0.0 and npm v6.4.1</p>
++<p>Open <a href="http://localhost:3000" rel="nofollow">http://localhost:3000</a> to view the app in the browser. The page will reload if you make edits.</p>
++<h2>
++<a id="user-content-how-to-fix-the-code-to-meet-the-objectives" class="anchor" href="#how-to-fix-the-code-to-meet-the-objectives" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to fix the code to meet the objectives</h2>
++<p>To make the changes necessary to complete the objectives of this task, <a href="https://insidesherpa.s3.amazonaws.com/vinternships/companyassets/Sj7temL583QAYpHXD/making_changes_m2_v2.pdf" rel="nofollow">follow this guide</a>.</p>
++<h2>
++<a id="user-content-how-to-submit-your-work" class="anchor" href="#how-to-submit-your-work" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to submit your work</h2>
++<p>A patch file is what is required from you to submit. To create a patch file, <a href="https://insidesherpa.s3.amazonaws.com/vinternships/companyassets/Sj7temL583QAYpHXD/create_patch_file_v3a.pdf" rel="nofollow">follow this guide</a>. Then submit the patch file in the <a href="https://www.insidesherpa.com/modules/R5iK7HMxJGBgaSbvk/88AisH7iuw3L5N5ig" rel="nofollow">JPM Module 2 Page</a>.</p>
++</article></body></html>
+\ No newline at end of file
+diff --git a/datafeed/server3.py b/datafeed/server3.py
+index 2de4e28..1d59866 100644
+--- a/datafeed/server3.py
++++ b/datafeed/server3.py
+@@ -202,7 +202,7 @@ def get(req_handler, routes):
+                 req_handler.wfile.write(bytes(data,  encoding = 'utf-8'))
+                 return
+ 
+-def run(routes, host = '0.0.0.0', port = 8080):
++def run(routes, host = '0.0.0.0', port = 8085):
+     """ Runs a class as a server whose methods have been decorated with
+         @route.
+     """
+@@ -215,7 +215,7 @@ def run(routes, host = '0.0.0.0', port = 8080):
+     thread = threading.Thread(target = server.serve_forever)
+     thread.daemon = True
+     thread.start()
+-    print ('HTTP server started on port 8080')
++    print ('HTTP server started on port 8085')
+     while True:
+         from time import sleep
+         sleep(1)
+diff --git a/package-lock.json b/package-lock.json
+index 3c8c001..2fead51 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1507,9 +1507,9 @@
+       "integrity": "sha512-2NVovndCjJQj6fUUn9jCgpP4WSqr+u1SoUZMZyJkhGeBFsm6dE46l31S7lPUYt9uQ28XI+ibrJA1f5XyH5HNtA=="
+     },
+     "@types/prop-types": {
+-      "version": "15.5.8",
+-      "resolved": "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.5.8.tgz",
+-      "integrity": "sha512-3AQoUxQcQtLHsK25wtTWIoIpgYjH3vSDroZOUr7PpCHw/jLY1RB9z9E8dBT/OSmwStVgkRNvdh+ZHNiomRieaw=="
++      "version": "15.7.3",
++      "resolved": "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.3.tgz",
++      "integrity": "sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw=="
+     },
+     "@types/q": {
+       "version": "1.5.1",
+@@ -1517,9 +1517,9 @@
+       "integrity": "sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA=="
+     },
+     "@types/react": {
+-      "version": "16.7.22",
+-      "resolved": "https://registry.npmjs.org/@types/react/-/react-16.7.22.tgz",
+-      "integrity": "sha512-j/3tVoY09kHcTfbia4l67ofQn9xvktUvlC/4QN0KuBHAXlbU/wuGKMb8WfEb/vIcWxsOxHv559uYprkFDFfP8Q==",
++      "version": "16.9.34",
++      "resolved": "https://registry.npmjs.org/@types/react/-/react-16.9.34.tgz",
++      "integrity": "sha512-8AJlYMOfPe1KGLKyHpflCg5z46n0b5DbRfqDksxBLBTUpB75ypDBAO9eCUcjNwE6LCUslwTz00yyG/X9gaVtow==",
+       "requires": {
+         "@types/prop-types": "*",
+         "csstype": "^2.2.0"
+@@ -1801,6 +1801,14 @@
+       "resolved": "https://registry.npmjs.org/address/-/address-1.0.3.tgz",
+       "integrity": "sha512-z55ocwKBRLryBs394Sm3ushTtBeg6VAeuku7utSoSnsJKvKcnXFIyC6vh27n3rXyxSgkJBBCAvyOn7gSUcTYjg=="
+     },
++    "agent-base": {
++      "version": "4.3.0",
++      "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-4.3.0.tgz",
++      "integrity": "sha512-salcGninV0nPrwpGNn4VTXBb1SOuXQBiqbrNXoeizJsHrsL6ERFM2Ne3JUSBWRE6aeNJI2ROP/WEEIDUiDe3cg==",
++      "requires": {
++        "es6-promisify": "^5.0.0"
++      }
++    },
+     "ajv": {
+       "version": "6.7.0",
+       "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.7.0.tgz",
+@@ -3679,6 +3687,11 @@
+       "resolved": "https://registry.npmjs.org/buffer-alloc-unsafe/-/buffer-alloc-unsafe-1.1.0.tgz",
+       "integrity": "sha512-TEM2iMIEQdJ2yjPJoSIsldnleVaAk1oW3DBVUykyOLsEsFmEc9kn+SFFPz+gl54KQNxlDnAwCXosOS9Okx2xAg=="
+     },
++    "buffer-crc32": {
++      "version": "0.2.13",
++      "resolved": "https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz",
++      "integrity": "sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI="
++    },
+     "buffer-fill": {
+       "version": "1.0.0",
+       "resolved": "https://registry.npmjs.org/buffer-fill/-/buffer-fill-1.0.0.tgz",
+@@ -4937,9 +4950,9 @@
+       }
+     },
+     "csstype": {
+-      "version": "2.6.2",
+-      "resolved": "https://registry.npmjs.org/csstype/-/csstype-2.6.2.tgz",
+-      "integrity": "sha512-Rl7PvTae0pflc1YtxtKbiSqq20Ts6vpIYOD5WBafl4y123DyHUeLrRdQP66sQW8/6gmX8jrYJLXwNeMqYVJcow=="
++      "version": "2.6.10",
++      "resolved": "https://registry.npmjs.org/csstype/-/csstype-2.6.10.tgz",
++      "integrity": "sha512-D34BqZU4cIlMCY93rZHbrq9pjTAQJ3U8S8rfBqjwHxkGPThWFjzZDQpgMJY0QViLxth6ZKYiwFBo14RdN44U/w=="
+     },
+     "cyclist": {
+       "version": "0.2.2",
+@@ -5527,6 +5540,19 @@
+         "es6-symbol": "^3.1.1"
+       }
+     },
++    "es6-promise": {
++      "version": "4.2.8",
++      "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-4.2.8.tgz",
++      "integrity": "sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w=="
++    },
++    "es6-promisify": {
++      "version": "5.0.0",
++      "resolved": "https://registry.npmjs.org/es6-promisify/-/es6-promisify-5.0.0.tgz",
++      "integrity": "sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=",
++      "requires": {
++        "es6-promise": "^4.0.3"
++      }
++    },
+     "es6-symbol": {
+       "version": "3.1.1",
+       "resolved": "https://registry.npmjs.org/es6-symbol/-/es6-symbol-3.1.1.tgz",
+@@ -6179,6 +6205,45 @@
+         }
+       }
+     },
++    "extract-zip": {
++      "version": "1.7.0",
++      "resolved": "https://registry.npmjs.org/extract-zip/-/extract-zip-1.7.0.tgz",
++      "integrity": "sha512-xoh5G1W/PB0/27lXgMQyIhP5DSY/LhoCsOyZgb+6iMmRtCwVBo55uKaMoEYrDCKQhWvqEip5ZPKAc6eFNyf/MA==",
++      "requires": {
++        "concat-stream": "^1.6.2",
++        "debug": "^2.6.9",
++        "mkdirp": "^0.5.4",
++        "yauzl": "^2.10.0"
++      },
++      "dependencies": {
++        "debug": {
++          "version": "2.6.9",
++          "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
++          "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
++          "requires": {
++            "ms": "2.0.0"
++          }
++        },
++        "minimist": {
++          "version": "1.2.5",
++          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.5.tgz",
++          "integrity": "sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw=="
++        },
++        "mkdirp": {
++          "version": "0.5.5",
++          "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.5.tgz",
++          "integrity": "sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==",
++          "requires": {
++            "minimist": "^1.2.5"
++          }
++        },
++        "ms": {
++          "version": "2.0.0",
++          "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
++          "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
++        }
++      }
++    },
+     "extsprintf": {
+       "version": "1.3.0",
+       "resolved": "https://registry.npmjs.org/extsprintf/-/extsprintf-1.3.0.tgz",
+@@ -6523,6 +6588,14 @@
+         "bser": "^2.0.0"
+       }
+     },
++    "fd-slicer": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/fd-slicer/-/fd-slicer-1.1.0.tgz",
++      "integrity": "sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=",
++      "requires": {
++        "pend": "~1.2.0"
++      }
++    },
+     "figgy-pudding": {
+       "version": "3.5.1",
+       "resolved": "https://registry.npmjs.org/figgy-pudding/-/figgy-pudding-3.5.1.tgz",
+@@ -7089,11 +7162,13 @@
+         },
+         "balanced-match": {
+           "version": "1.0.0",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "brace-expansion": {
+           "version": "1.1.11",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "balanced-match": "^1.0.0",
+             "concat-map": "0.0.1"
+@@ -7106,15 +7181,18 @@
+         },
+         "code-point-at": {
+           "version": "1.1.0",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "concat-map": {
+           "version": "0.0.1",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "console-control-strings": {
+           "version": "1.1.0",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "core-util-is": {
+           "version": "1.0.2",
+@@ -7217,7 +7295,8 @@
+         },
+         "inherits": {
+           "version": "2.0.3",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "ini": {
+           "version": "1.3.5",
+@@ -7227,6 +7306,7 @@
+         "is-fullwidth-code-point": {
+           "version": "1.0.0",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "number-is-nan": "^1.0.0"
+           }
+@@ -7239,17 +7319,20 @@
+         "minimatch": {
+           "version": "3.0.4",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "brace-expansion": "^1.1.7"
+           }
+         },
+         "minimist": {
+           "version": "0.0.8",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "minipass": {
+           "version": "2.2.4",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "safe-buffer": "^5.1.1",
+             "yallist": "^3.0.0"
+@@ -7266,6 +7349,7 @@
+         "mkdirp": {
+           "version": "0.5.1",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "minimist": "0.0.8"
+           }
+@@ -7338,7 +7422,8 @@
+         },
+         "number-is-nan": {
+           "version": "1.0.1",
+-          "bundled": true
++          "bundled": true,
++          "optional": true
+         },
+         "object-assign": {
+           "version": "4.1.1",
+@@ -7348,6 +7433,7 @@
+         "once": {
+           "version": "1.4.0",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "wrappy": "1"
+           }
+@@ -7453,6 +7539,7 @@
+         "string-width": {
+           "version": "1.0.2",
+           "bundled": true,
++          "optional": true,
+           "requires": {
+             "code-point-at": "^1.0.0",
+             "is-fullwidth-code-point": "^1.0.0",
+@@ -8465,6 +8552,25 @@
+       "resolved": "https://registry.npmjs.org/https-browserify/-/https-browserify-1.0.0.tgz",
+       "integrity": "sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM="
+     },
++    "https-proxy-agent": {
++      "version": "2.2.4",
++      "resolved": "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-2.2.4.tgz",
++      "integrity": "sha512-OmvfoQ53WLjtA9HeYP9RNrWMJzzAz1JGaSFr1nijg0PVR1JaD/xbJq1mdEIIlxGpXp9eSe/O2LgU9DJmTPd0Eg==",
++      "requires": {
++        "agent-base": "^4.3.0",
++        "debug": "^3.1.0"
++      },
++      "dependencies": {
++        "debug": {
++          "version": "3.2.6",
++          "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.6.tgz",
++          "integrity": "sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==",
++          "requires": {
++            "ms": "^2.1.1"
++          }
++        }
++      }
++    },
+     "iconv-lite": {
+       "version": "0.4.24",
+       "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.24.tgz",
+@@ -11425,6 +11531,11 @@
+         "sha.js": "^2.4.8"
+       }
+     },
++    "pend": {
++      "version": "1.2.0",
++      "resolved": "https://registry.npmjs.org/pend/-/pend-1.2.0.tgz",
++      "integrity": "sha1-elfrVQpng/kRUzH89GY9XI4AelA="
++    },
+     "performance-now": {
+       "version": "2.1.0",
+       "resolved": "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz",
+@@ -15518,6 +15629,11 @@
+         "ipaddr.js": "1.8.0"
+       }
+     },
++    "proxy-from-env": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz",
++      "integrity": "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="
++    },
+     "prr": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/prr/-/prr-1.0.1.tgz",
+@@ -15581,6 +15697,21 @@
+       "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz",
+       "integrity": "sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A=="
+     },
++    "puppeteer": {
++      "version": "1.20.0",
++      "resolved": "https://registry.npmjs.org/puppeteer/-/puppeteer-1.20.0.tgz",
++      "integrity": "sha512-bt48RDBy2eIwZPrkgbcwHtb51mj2nKvHOPMaSH2IsWiv7lOG9k9zhaRzpDZafrk05ajMc3cu+lSQYYOfH2DkVQ==",
++      "requires": {
++        "debug": "^4.1.0",
++        "extract-zip": "^1.6.6",
++        "https-proxy-agent": "^2.2.1",
++        "mime": "^2.0.3",
++        "progress": "^2.0.1",
++        "proxy-from-env": "^1.0.0",
++        "rimraf": "^2.6.1",
++        "ws": "^6.1.0"
++      }
++    },
+     "q": {
+       "version": "1.5.1",
+       "resolved": "https://registry.npmjs.org/q/-/q-1.5.1.tgz",
+@@ -15700,14 +15831,13 @@
+       }
+     },
+     "react": {
+-      "version": "16.7.0",
+-      "resolved": "https://registry.npmjs.org/react/-/react-16.7.0.tgz",
+-      "integrity": "sha512-StCz3QY8lxTb5cl2HJxjwLFOXPIFQp+p+hxQfc8WE0QiLfCtIlKj8/+5tjjKm8uSTlAW+fCPaavGFS06V9Ar3A==",
++      "version": "16.13.1",
++      "resolved": "https://registry.npmjs.org/react/-/react-16.13.1.tgz",
++      "integrity": "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==",
+       "requires": {
+         "loose-envify": "^1.1.0",
+         "object-assign": "^4.1.1",
+-        "prop-types": "^15.6.2",
+-        "scheduler": "^0.12.0"
++        "prop-types": "^15.6.2"
+       }
+     },
+     "react-app-polyfill": {
+@@ -15813,14 +15943,14 @@
+       }
+     },
+     "react-dom": {
+-      "version": "16.7.0",
+-      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-16.7.0.tgz",
+-      "integrity": "sha512-D0Ufv1ExCAmF38P2Uh1lwpminZFRXEINJe53zRAbm4KPwSyd6DY/uDoS0Blj9jvPpn1+wivKpZYc8aAAN/nAkg==",
++      "version": "16.13.1",
++      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-16.13.1.tgz",
++      "integrity": "sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==",
+       "requires": {
+         "loose-envify": "^1.1.0",
+         "object-assign": "^4.1.1",
+         "prop-types": "^15.6.2",
+-        "scheduler": "^0.12.0"
++        "scheduler": "^0.19.1"
+       }
+     },
+     "react-error-overlay": {
+@@ -17025,9 +17155,9 @@
+       }
+     },
+     "scheduler": {
+-      "version": "0.12.0",
+-      "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.12.0.tgz",
+-      "integrity": "sha512-t7MBR28Akcp4Jm+QoR63XgAi9YgCUmgvDHqf5otgAj4QvdoBE4ImCX0ffehefePPG+aitiYHp0g/mW6s4Tp+dw==",
++      "version": "0.19.1",
++      "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.19.1.tgz",
++      "integrity": "sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==",
+       "requires": {
+         "loose-envify": "^1.1.0",
+         "object-assign": "^4.1.1"
+@@ -19606,6 +19736,15 @@
+         "camelcase": "^5.0.0",
+         "decamelize": "^1.2.0"
+       }
++    },
++    "yauzl": {
++      "version": "2.10.0",
++      "resolved": "https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz",
++      "integrity": "sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=",
++      "requires": {
++        "buffer-crc32": "~0.2.3",
++        "fd-slicer": "~1.1.0"
++      }
+     }
+   }
+ }
+diff --git a/src/App.tsx b/src/App.tsx
+index 0728518..813b482 100755
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -8,6 +8,7 @@ import './App.css';
+  */
+ interface IState {
+   data: ServerRespond[],
++  showGraph: Boolean,
+ }
+ 
+ /**
+@@ -22,6 +23,7 @@ class App extends Component<{}, IState> {
+       // data saves the server responds.
+       // We use this state to parse data down to the child element (Graph) as element property
+       data: [],
++      showGraph: false,
+     };
+   }
+ 
+@@ -29,20 +31,28 @@ class App extends Component<{}, IState> {
+    * Render Graph react component with state.data parse as property data
+    */
+   renderGraph() {
++    if (this.state.showGraph){
+     return (<Graph data={this.state.data}/>)
++    }
+   }
+-
+-  /**
+-   * Get new data from server and update the state with the new data
+-   */
++  /*
++  Get new data from server and update the state with the new data
++  */
+   getDataFromServer() {
++  let x = 0;
++  const interval = setInterval(() => {
+     DataStreamer.getData((serverResponds: ServerRespond[]) => {
+       // Update the state by creating a new array of data that consists of
+       // Previous data in the state and the new data from server
+-      this.setState({ data: [...this.state.data, ...serverResponds] });
++      this.setState({ data: serverResponds, showGraph: true
++      });
+     });
+-  }
+-
++    x++;
++    if (x > 1000){
++      clearInterval(interval);
++    }
++  }, 100);
++}
+   /**
+    * Render the App react component
+    */
+diff --git a/src/DataStreamer.ts b/src/DataStreamer.ts
+index 78583cb..98b98a3 100644
+--- a/src/DataStreamer.ts
++++ b/src/DataStreamer.ts
+@@ -15,7 +15,7 @@ export interface ServerRespond {
+ 
+ class DataStreamer {
+   // The url where datafeed server is listening
+-  static API_URL: string = 'http://localhost:8080/query?id=1';
++  static API_URL: string = 'http://localhost:8085/query?id=1';
+ 
+   /**
+    * Send request to the datafeed server and executes callback function on success
+@@ -37,4 +37,4 @@ class DataStreamer {
+   }
+ }
+ 
+-export default DataStreamer;
+\ No newline at end of file
++export default DataStreamer;
+diff --git a/src/Graph.tsx b/src/Graph.tsx
+index ec1430e..7140645 100644
+--- a/src/Graph.tsx
++++ b/src/Graph.tsx
+@@ -14,7 +14,8 @@ interface IProps {
+  * Perspective library adds load to HTMLElement prototype.
+  * This interface acts as a wrapper for Typescript compiler.
+  */
+-interface PerspectiveViewerElement {
++// interface PerspectiveViewerElement{
++  interface PerspectiveViewerElement extends HTMLElement {
+   load: (table: Table) => void,
+ }
+ 
+@@ -32,8 +33,8 @@ class Graph extends Component<IProps, {}> {
+ 
+   componentDidMount() {
+     // Get element to attach the table from the DOM.
+-    const elem: PerspectiveViewerElement = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
+-
++    // const elem: PerspectiveViewerElement = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
++    const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
+     const schema = {
+       stock: 'string',
+       top_ask_price: 'float',
+@@ -46,10 +47,28 @@ class Graph extends Component<IProps, {}> {
+     }
+     if (this.table) {
+       // Load the `table` in the `<perspective-viewer>` DOM reference.
+-
+-      // Add more Perspective configurations here.
+       elem.load(this.table);
++      // Add more Perspective configurations here.
++       elem.setAttribute('view', 'y_line')
++       var col_pvts = elem.getAttribute('column_pivots')
++       var arr = [""]
++       if(col_pvts)
++           arr = col_pvts.split(' ')
++       arr.push("stock")
++       elem.setAttribute('column_pivots', arr.toString())
++       elem.setAttribute('row_pivots', '["timestamp"]')
++       elem.setAttribute('columns', '["top_ask_price"]')
++       elem.setAttribute('aggregates', `
++       {
++         "stock": "distinct count",
++         "top_ask_price": "avg",
++         "top_bid_price": "avg",
++         "timestamp": "distinct count"
++       }`);
++
+     }
++    console.log(elem)
++
+   }
+ 
+   componentDidUpdate() {
+@@ -59,6 +78,7 @@ class Graph extends Component<IProps, {}> {
+       // avoid inserting duplicated entries into Perspective table again.
+       this.table.update(this.props.data.map((el: any) => {
+         // Format the data from ServerRespond to the schema
++
+         return {
+           stock: el.stock,
+           top_ask_price: el.top_ask && el.top_ask.price || 0,
+-- 
+2.7.4
+
